@@ -14,9 +14,16 @@ sources = [
 
 script = """cd arb-$version
 """*raw"""
+UNAME=`uname`
+if [[ ${UNAME} == MSYS_NT-6.3 ]]; then
+    ln -sf $prefix/bin/libflint-13.dll $prefix/bin/libflint.dll.a
+fi
 ./configure --prefix=$prefix --enable-shared --disable-static --with-gmp=$prefix --with-mpfr=$prefix --with-flint=$prefix
 make -j
 make install
+if [[ ${UNAME} == MSYS_NT-6.3 ]]; then
+    rm -f $prefix/bin/libflint.dll.a
+fi
 """
 # These are the platforms we will build for by default, unless further
 # platforms are passed in on the command line
