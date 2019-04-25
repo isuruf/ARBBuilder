@@ -4,10 +4,10 @@ using BinaryBuilder
 
 # Collection of sources required to build MPCBuilder
 name = "ARB"
-version = v"2.14.0"
+version = v"2.16.0"
 sources = [
     "https://github.com/fredrik-johansson/arb/archive/$version.tar.gz" =>
-    "bdd28aeea8be133a3a1971bd836d2a5b946cd4dd0c0c695188bd03d1ec119959",
+    "77464be4d34a511bb004457f862fec857ff934b0ed58d56d6f52d76ebadd4daf",
 ]
 
 # Bash recipe for building across all platforms
@@ -16,13 +16,13 @@ script = """cd arb-$version
 """*raw"""
 UNAME=`uname`
 if [[ ${UNAME} == MSYS_NT-6.3 ]]; then
-    ln -sf $prefix/bin/libflint-13.dll $prefix/bin/libflint.dll.a
+    ln -sf $prefix/bin/libflint-13.dll $prefix/lib/libflint.dll.a
 fi
 ./configure --prefix=$prefix --enable-shared --disable-static --with-gmp=$prefix --with-mpfr=$prefix --with-flint=$prefix
 make -j
 make install
 if [[ ${UNAME} == MSYS_NT-6.3 ]]; then
-    rm -f $prefix/bin/libflint.dll.a
+    rm -f $prefix/lib/libflint.dll.a
 fi
 """
 # These are the platforms we will build for by default, unless further
